@@ -1,0 +1,121 @@
+#!/usr/bin/gjs
+
+var Gtk  = imports.gi.Gtk;
+var Gst  = imports.gi.Gst;
+var GLib = imports.gi.GLib;
+
+
+const Mainloop = imports.mainloop;
+
+Gtk.init(null, 0);
+Gst.init(null, 0);
+
+var oWin = new Gtk.Window({type: Gtk.WindowType.TOPLEVEL, border_width: 20});
+oWin.title = "Menu";
+oWin.connect("destroy", function()
+{
+	Gtk.main_quit()
+});
+
+var oBox = new Gtk.ButtonBox ({orientation: Gtk.Orientation.VERTICAL, spacing: 10});
+var oBoxHead = new Gtk.ButtonBox ({orientation: Gtk.Orientation.HORIZONTAL, spacing: 10});
+var oBoxBody = new Gtk.ButtonBox ({orientation: Gtk.Orientation.HORIZONTAL, spacing: 10});
+var oBoxFoot = new Gtk.ButtonBox ({orientation: Gtk.Orientation.HORIZONTAL, spacing: 10});
+
+var oBoxLeft = new Gtk.ButtonBox ({orientation: Gtk.Orientation.VERTICAL, spacing: 1});
+var oBoxCenter = new Gtk.ButtonBox ({orientation: Gtk.Orientation.VERTICAL, spacing: 1});
+var oBoxRight = new Gtk.ButtonBox ({orientation: Gtk.Orientation.VERTICAL, spacing: 1});
+
+oBox.add(oBoxHead);
+oBox.add(oBoxBody);
+oBox.add(oBoxFoot);
+
+oBoxBody.add(oBoxLeft);
+oBoxBody.add(oBoxCenter);
+oBoxBody.add(oBoxRight);
+
+////////////////////////////////
+// LABEL
+////////////////////////////////
+
+var oLabel = new Gtk.Label();
+oLabel.label = "ciao io sono un label";
+oBoxHead.add(oLabel);
+
+
+/////////////////////////////////
+// RADIO
+/////////////////////////////////
+
+var oRadio1 = new Gtk.RadioButton({label: "uno"});
+var oRadio2 = new Gtk.RadioButton.new_with_label_from_widget(oRadio1, "due");
+var oRadio3 = new Gtk.RadioButton.new_with_label_from_widget(oRadio2, "tre");
+
+var OnRadioToggled = function(o) { if(o.get_active()) oLabel.label = o.label; }
+
+oRadio1.connect("toggled", OnRadioToggled);
+oRadio2.connect("toggled", OnRadioToggled);
+oRadio3.connect("toggled", OnRadioToggled);
+
+oBoxLeft.pack_start(oRadio1, true, true, 10);
+oBoxLeft.pack_start(oRadio2, false, false, 2);
+oBoxLeft.pack_start(oRadio3, true, false, 22);
+
+///////////////////////////////////////////////////
+// CHECK
+///////////////////////////////////////////////////
+
+var oCheck1 = new Gtk.CheckButton({label: "uno"});
+var oCheck2 = new Gtk.CheckButton({label: "due"});
+var oCheck3 = new Gtk.CheckButton({label: "tre"});
+
+var OnClickCheckButton = function(o) {oLabel.label = "change-check " + o.label + " in: " + o.get_active()};
+oCheck1.connect("toggled", OnClickCheckButton);
+oCheck2.connect("toggled", OnClickCheckButton);
+oCheck3.connect("toggled", OnClickCheckButton);
+
+oBoxRight.add(oCheck1);
+oBoxRight.add(oCheck2);
+oBoxRight.add(oCheck3);
+
+
+///////////////////////////////////////////////////
+// BUTTON
+///////////////////////////////////////////////////
+var oButton1 = new Gtk.Button({label: "ls -al"});
+var oButton2 = new Gtk.Button({label: "About"});
+var oButton3 = new Gtk.Button({label: "..."});
+var oButton4 = new Gtk.Button({label: "..."});
+var oButton5 = new Gtk.Button({label: "ESCI"});
+
+oBoxFoot.add(oButton1);
+oBoxFoot.add(oButton2);
+oBoxFoot.add(oButton3);
+oBoxFoot.add(oButton4);
+oBoxFoot.add(oButton5);
+
+oButton1.connect("clicked", function() 
+{
+	oLabel.label = "avviato: nel terminale: ls -la"
+	GLib.spawn_command_line_async( "ls -la");
+});
+oButton2.connect("clicked", function() 
+{
+	oLabel.label = "avviato: about"
+	GLib.spawn_command_line_sync( "./about");
+});
+oButton5.connect("clicked", function() 
+{
+	Gtk.main_quit();
+});
+
+
+
+oWin.add(oBox);
+
+oBox.show_all();
+oWin.show();
+
+Gtk.main();
+
+
