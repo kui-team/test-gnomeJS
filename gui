@@ -1,5 +1,18 @@
 #!/usr/bin/gjs
 
+////////////////////////////
+// INTERESSANTE
+// Questa è un'altra forma per creare applicazioni
+// si crea una classe che nell'init crea un'applicazione
+// a cui si associano degli eventi (onStartup e onActivate). Interessante.
+
+// Poi c'è GtkBuilder
+// che carica un XML (creato da GLADE, scaricalo da synaptic)
+// e genera tutti gli oggetti che servono automaticamente.
+// Ho fatto una prova ad intercettare il check_comprimi
+// e sembra funzionare
+/////////////////////////////
+
 const Lang = imports.lang;
 const Gtk = imports.gi.Gtk;
 
@@ -23,7 +36,16 @@ const HelloWorld = new Lang.Class(
 	{
         let builder = new Gtk.Builder();
         builder.add_from_file('gui.glade');
-        this._window = builder.get_object('window1');
+        this._window = builder.get_object("window1");
+        let oWin = this._window; 
+        let oCheck = builder.get_object("check_comprimi");
+		oCheck.connect("toggled", function(o)
+		{
+			if(o.get_active())
+				oWin.title = "OOOOhhhhh !!!";
+			else
+				oWin.title = "Buuuuuuh !!!";
+		});
         this.application.add_window(this._window);
     }
 });
