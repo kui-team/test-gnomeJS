@@ -84,7 +84,7 @@ oBoxRight.add(oCheck3);
 ///////////////////////////////////////////////////
 var oButton1 = new Gtk.Button({label: "ls -al"});
 var oButton2 = new Gtk.Button({label: "About"});
-var oButton3 = new Gtk.Button({label: "..."});
+var oButton3 = new Gtk.Button({label: "XML"});
 var oButton4 = new Gtk.Button({label: "..."});
 var oButton5 = new Gtk.Button({label: "ESCI"});
 
@@ -94,16 +94,43 @@ oBoxFoot.add(oButton3);
 oBoxFoot.add(oButton4);
 oBoxFoot.add(oButton5);
 
-oButton1.connect("clicked", function() 
+oButton1.connect("clicked", function(o) 
 {
 	oLabel.label = "avviato: nel terminale: ls -la"
 	GLib.spawn_command_line_async( "ls -la");
 });
-oButton2.connect("clicked", function() 
+
+oButton2.connect("clicked", function(o) 
 {
 	oLabel.label = "avviato: about"
 	GLib.spawn_command_line_sync( "./about");
 });
+
+oButton3.connect("clicked", function(o)
+{
+	var xDoc = new XML("<DATA></DATA>");
+	var xe = <COGNOME/>;
+	//xDoc.appendChild("NOME");
+	xDoc.appendChild(<NOME/>);
+	xDoc.appendChild(xe);
+	xDoc.NOME.@battesimo = "Andrea";
+	var sValue = xDoc.NOME.@battesimo;
+	if(xDoc.NOME.@battesimo == "Andrea")
+		xDoc.COGNOME = "Calvia";
+	
+	xDoc.A.B.C.D = "asdfghjk";
+	
+	var sText = xDoc.Z.boooh;
+	
+	if(sText == undefined)
+		xDoc.Z = "Z era undefined";
+	
+	oLabel.label = xDoc.toXMLString();
+});
+
+
+
+
 oButton5.connect("clicked", function() 
 {
 	Gtk.main_quit();
