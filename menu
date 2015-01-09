@@ -4,7 +4,6 @@ var Gtk  = imports.gi.Gtk;
 var Gst  = imports.gi.Gst;
 var GLib = imports.gi.GLib;
 
-
 const Mainloop = imports.mainloop;
 
 Gtk.init(null, 0);
@@ -108,11 +107,12 @@ oButton2.connect("clicked", function(o)
 
 oButton3.connect("clicked", function(o)
 {
+/*
 	var xDoc = new XML("<DATA></DATA>");
-	var xe = <COGNOME/>;
+	//var xe = <COGNOME/>;
 	//xDoc.appendChild("NOME");
-	xDoc.appendChild(<NOME/>);
-	xDoc.appendChild(xe);
+	//xDoc.appendChild(<NOME/>);
+	//xDoc.appendChild(xe);
 	xDoc.NOME.@battesimo = "Andrea";
 	var sValue = xDoc.NOME.@battesimo;
 	if(xDoc.NOME.@battesimo == "Andrea")
@@ -126,6 +126,23 @@ oButton3.connect("clicked", function(o)
 		xDoc.Z = "Z era undefined";
 	
 	oLabel.label = xDoc.toXMLString();
+*/
+});
+
+oButton4.connect("clicked", function() 
+{
+	var Gio = imports.gi.Gio;
+	var oFile = Gio.file_new_for_path("data.xml");
+
+	oLabel.label = oFile.get_path();
+
+
+	var zExists = oFile.query_exists(0);
+	if (zExists == true) 
+		oLabel.label = "file exists";
+	else
+		oLabel.label = "file doesn't exist"; 
+
 });
 
 
