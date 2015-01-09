@@ -105,9 +105,9 @@ oButton2.connect("clicked", function(o)
 	GLib.spawn_command_line_sync( "./about");
 });
 
+/*
 oButton3.connect("clicked", function(o)
 {
-/*
 	var xDoc = new XML("<DATA></DATA>");
 	//var xe = <COGNOME/>;
 	//xDoc.appendChild("NOME");
@@ -126,7 +126,6 @@ oButton3.connect("clicked", function(o)
 		xDoc.Z = "Z era undefined";
 	
 	oLabel.label = xDoc.toXMLString();
-*/
 });
 
 oButton4.connect("clicked", function() 
@@ -145,6 +144,7 @@ oButton4.connect("clicked", function()
 
 });
 
+*/
 
 
 
