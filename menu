@@ -47,8 +47,8 @@ oBoxHead.add(oLabel);
 /////////////////////////////////
 
 var oRadio1 = new Gtk.RadioButton({label: "uno"});
-var oRadio2 = new Gtk.RadioButton.new_with_label_from_widget(oRadio1, "due");
-var oRadio3 = new Gtk.RadioButton.new_with_label_from_widget(oRadio2, "tre");
+var oRadio2 = Gtk.RadioButton.new_with_label_from_widget(oRadio1, "due");
+var oRadio3 = Gtk.RadioButton.new_with_label_from_widget(oRadio2, "tre");
 
 var OnRadioToggled = function(o) { if(o.get_active()) oLabel.label = o.label; }
 
@@ -105,7 +105,6 @@ oButton2.connect("clicked", function(o)
 	GLib.spawn_command_line_sync( "./about");
 });
 
-/*
 oButton3.connect("clicked", function(o)
 {
 	var xDoc = new XML("<DATA></DATA>");
@@ -126,6 +125,8 @@ oButton3.connect("clicked", function(o)
 		xDoc.Z = "Z era undefined";
 	
 	oLabel.label = xDoc.toXMLString();
+/*
+*/
 });
 
 oButton4.connect("clicked", function() 
@@ -135,16 +136,14 @@ oButton4.connect("clicked", function()
 
 	oLabel.label = oFile.get_path();
 
-
-	var zExists = oFile.query_exists(0);
-	if (zExists == true) 
-		oLabel.label = "file exists";
-	else
-		oLabel.label = "file doesn't exist"; 
+  var oStream = oFile.read(null, null);
+  var oData = gio.DataInputStream.c_new(oStream);
+  var sLine = oData.read_until("", 0);
+  oStream.close();
+  oLabel.label = sLine;
 
 });
 
-*/
 
 
 
