@@ -1,0 +1,10 @@
+#!/usr/bin/gjs
+const GLib = imports.gi.GLib;
+const Gio = imports.gi.Gio;
+ 
+let [res, out, err, status] = GLib.spawn_command_line_sync('ls -al');
+print("\n\n\nRES   \n" + res + "====================");
+print("\n\n\nOUT   \n" + out + "====================");
+print("\n\n\nERR   \n" + err + "====================");
+print("\n\n\nSTATUS\n" + status + "====================");
+ 
